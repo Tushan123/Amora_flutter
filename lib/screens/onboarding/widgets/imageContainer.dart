@@ -1,5 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, file_names
+import 'package:amora/bloc/auth/auth_bloc.dart';
 import 'package:amora/bloc/onboarding/onboarding_bloc.dart';
+import 'package:amora/bloc/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +9,8 @@ import 'package:ionicons/ionicons.dart';
 
 class ImageContainer extends StatelessWidget {
   final String? imgUrl;
-  const ImageContainer({super.key, this.imgUrl});
+  final int? index;
+  const ImageContainer({super.key, this.imgUrl, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +69,17 @@ class ImageContainer extends StatelessWidget {
                         child: Center(
                           child: IconButton(
                               onPressed: () {
-                                // context.read<ProfileBloc>().add(
-                                //     DeleteImageFromProfile(
-                                //         user: state.user,
-                                //         img: state.user.imageUrls[index]));
+                                context.read<ProfileBloc>().add(
+                                    DeleteImageFromProfile(
+                                        user: context
+                                            .read<AuthBloc>()
+                                            .state
+                                            .user!,
+                                        img: context
+                                            .read<AuthBloc>()
+                                            .state
+                                            .user!
+                                            .imageUrls[index!]));
                               },
                               iconSize: 15,
                               icon: const Icon(

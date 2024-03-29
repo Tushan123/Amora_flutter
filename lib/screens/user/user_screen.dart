@@ -72,20 +72,20 @@ class UserScreen extends StatelessWidget {
                             ),
                             Positioned(
                               top: 145,
-                              child: Container(
-                                width: 160,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  color: Colors.amber,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 20),
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, "/profile");
-                                    },
-                                    child: const Row(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, "/profile");
+                                },
+                                child: Container(
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.amber,
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 20),
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
@@ -135,12 +135,12 @@ class UserScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Ionicons.star,
                                     size: 30,
                                     color: Colors.amber,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 13,
                                   ),
                                   Padding(
@@ -148,7 +148,8 @@ class UserScreen extends StatelessWidget {
                                         const EdgeInsets.symmetric(vertical: 1),
                                     child: Text(
                                       "${state.user.matches!.length} people liked your profile",
-                                      style: TextStyle(fontFamily: "Couture"),
+                                      style: const TextStyle(
+                                          fontFamily: "Couture"),
                                     ),
                                   ),
                                 ],
@@ -223,14 +224,20 @@ class UserScreen extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5),
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 100,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Image.network(
-                                        state.user.imageUrls[index]['url'],
-                                        fit: BoxFit.fill,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          imageUrl: state.user.imageUrls[index]
+                                              ['url'],
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            "assets/images/portrait.jpg",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   );

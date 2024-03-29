@@ -2,6 +2,7 @@ import 'package:amora/bloc/onboarding/onboarding_bloc.dart';
 import 'package:amora/screens/onboarding/onboard_screens/genderAge.dart';
 import 'package:amora/screens/onboarding/widgets/customInputField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -82,7 +83,10 @@ class _DemoScreenState extends State<DemoScreen> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("Your name will be displayed in your profile."),
+                          SizedBox(
+                              width: 230,
+                              child: Text(
+                                  "Your name will be displayed in your profile.")),
                         ],
                       ),
                       IconButton(

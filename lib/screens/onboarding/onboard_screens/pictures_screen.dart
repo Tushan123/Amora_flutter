@@ -30,6 +30,7 @@ class _PicturesScreenState extends State<PicturesScreen> {
           if (state is OnBoardingLoaded) {
             var images = state.user.imageUrls;
             var imageCount = images.length;
+            print(imageCount);
             return Padding(
               padding: const EdgeInsets.fromLTRB(20, 70, 11, 15),
               child: Column(
@@ -71,7 +72,10 @@ class _PicturesScreenState extends State<PicturesScreen> {
                           itemCount: 6,
                           itemBuilder: (BuildContext context, int index) {
                             return (imageCount > index)
-                                ? ImageContainer(imgUrl: images[index]['url'])
+                                ? ImageContainer(
+                                    imgUrl: images[index]['url'],
+                                    index: index,
+                                  )
                                 : const ImageContainer();
                           },
                         ),
@@ -88,10 +92,17 @@ class _PicturesScreenState extends State<PicturesScreen> {
                       ),
                       IconButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const BioScreen()));
+                            if (imageCount >= 2) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const BioScreen()));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Please upload atleast 2 photos")));
+                            }
                           },
                           icon: const Icon(Ionicons.arrow_forward))
                     ],

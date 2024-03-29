@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<Widget> _screens = [
     UserScreen(),
-    // Premium(),
     SwipeScreen(),
     MatchScreen(),
   ];
@@ -63,9 +62,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ? [
                   IconButton(
                       onPressed: () {
-                        RepositoryProvider.of<AuthRepository>(context)
-                            .signOut();
-                        Navigator.pushReplacementNamed(context, "/start");
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("Leaving Soon?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      RepositoryProvider.of<AuthRepository>(
+                                              context)
+                                          .signOut();
+                                      Navigator.pushReplacementNamed(
+                                          context, "/start");
+                                    },
+                                    child: const Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 15),
+                                    )),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text(
+                                      "No",
+                                      style: TextStyle(fontSize: 15),
+                                    )),
+                              ],
+                            );
+                          },
+                        );
                       },
                       icon: const Icon(
                         Icons.exit_to_app,
