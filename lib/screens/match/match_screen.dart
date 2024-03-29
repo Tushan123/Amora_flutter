@@ -4,7 +4,6 @@ import 'package:amora/models/model.dart';
 import 'package:amora/repositories/database/database_repository.dart';
 import 'package:amora/screens/chat/chat_screen.dart';
 import 'package:amora/widget/user_like_card.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,23 +35,14 @@ class MatchScreen extends StatelessWidget {
         }
         if (state is MatchLoaded) {
           final inactiveMatches = state.matches
+              // ignore: prefer_is_empty
               .where((match) => match.chat.messages.length == 0)
               .toList();
           final activeMatches = state.matches
+              // ignore: prefer_is_empty
               .where((match) => match.chat.messages.length > 0)
               .toList();
 
-          for (int i = 0; i < state.matches.length; i++) {
-            print("UserId : ${state.matches[i].userId}");
-            print("Mathced User : ${state.matches[i].matchedUser.name}");
-            print("Chat : ${state.matches[i].chat.messages.length}");
-          }
-          // print(inactiveMatches);
-          // for (int i = 0; i < inactiveMatches.length; i++) {
-          //   print("UserId : ${inactiveMatches[i].userId}");
-          //   print("Mathced User : ${inactiveMatches[i].matchedUser.name}");
-          //   print("Chat : ${inactiveMatches[i].chat.messages.length}");
-          // }
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
             child: SingleChildScrollView(
