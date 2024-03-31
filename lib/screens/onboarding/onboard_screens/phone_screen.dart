@@ -16,6 +16,8 @@ class PhoneScreen extends StatefulWidget {
 
 class _PhoneScreenState extends State<PhoneScreen> {
   var phone = "";
+  TextEditingController countryCode = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,13 +57,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  UserInput(
-                    onChange: (value) {
-                      phone = value;
-                    },
-                    text: 'Phone No.',
-                    type: TextInputType.phone,
-                  )
+                  PhoneNumberInput(country: countryCode, phone: phoneController)
                 ],
               ),
             ),
@@ -85,7 +81,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 ),
                 IconButton(
                     onPressed: () async {
-                      print(phone);
+                      phone = "${countryCode.text}${phoneController.text}";
                       await FirebaseAuth.instance.verifyPhoneNumber(
                           verificationCompleted:
                               (PhoneAuthCredential cred) async {},
