@@ -19,6 +19,7 @@ class DemoScreen extends StatefulWidget {
 class _DemoScreenState extends State<DemoScreen> {
   @override
   Widget build(BuildContext context) {
+    String name = "";
     return Scaffold(
       backgroundColor: const Color(0xFFFBC117),
       body: BlocBuilder<OnboardingBloc, OnboardingState>(
@@ -67,6 +68,7 @@ class _DemoScreenState extends State<DemoScreen> {
                           text: "Nickname",
                           type: TextInputType.text,
                           onChange: (value) {
+                            name = value;
                             context.read<OnboardingBloc>().add(UpdateUser(
                                 user: state.user.copyWith(name: value)));
                           },
@@ -91,10 +93,17 @@ class _DemoScreenState extends State<DemoScreen> {
                       ),
                       IconButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const AgeScreen()));
+                            if (name.length == 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Name is required for your profile")));
+                            } else {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AgeScreen()));
+                            }
                           },
                           icon: const Icon(Ionicons.arrow_forward))
                     ],

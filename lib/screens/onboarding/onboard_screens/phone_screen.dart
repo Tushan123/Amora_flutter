@@ -81,6 +81,20 @@ class _PhoneScreenState extends State<PhoneScreen> {
                 ),
                 IconButton(
                     onPressed: () async {
+                      if (phoneController.text.length < 10 ||
+                          phoneController.text.length > 10) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Please enter valid number")));
+                      } else if (phoneController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Please enter your number")));
+                      } else if (countryCode.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Please enter country code")));
+                      }
                       phone = "${countryCode.text}${phoneController.text}";
                       await FirebaseAuth.instance.verifyPhoneNumber(
                           verificationCompleted:

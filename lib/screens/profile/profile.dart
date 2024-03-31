@@ -131,6 +131,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                       child: Text(
+                        "Job Title",
+                        style: TextStyle(fontFamily: "Couture", fontSize: 15),
+                      ),
+                    ),
+                    ProfileInputField(
+                      type: TextInputType.name,
+                      text: state.user.jobTitle,
+                      onChange: (value) {
+                        context.read<ProfileBloc>().add(UpdateUserProfile(
+                            user: state.user.copyWith(jobTitle: value)));
+                      },
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                      child: Text(
                         "Location",
                         style: TextStyle(fontFamily: "COuture", fontSize: 15),
                       ),
@@ -244,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             );
           } else {
-            return const Text("Something wnet wroong");
+            return const Text("Something went wroong");
           }
         },
       ),

@@ -1,4 +1,6 @@
 // ignore_for_file: file_names
+import 'dart:ffi';
+
 import 'package:amora/bloc/onboarding/onboarding_bloc.dart';
 import 'package:amora/screens/onboarding/onboard_screens/pictures_screen.dart';
 import 'package:amora/screens/onboarding/widgets/customCheckBox.dart';
@@ -20,6 +22,7 @@ class AgeScreen extends StatefulWidget {
 class _AgeScreenState extends State<AgeScreen> {
   @override
   Widget build(BuildContext context) {
+    String age = "";
     return Scaffold(
       backgroundColor: const Color(0xFFFBC117),
       body: BlocBuilder<OnboardingBloc, OnboardingState>(
@@ -67,6 +70,7 @@ class _AgeScreenState extends State<AgeScreen> {
                           text: "Age",
                           type: TextInputType.datetime,
                           onChange: (value) {
+                            age = value;
                             context.read<OnboardingBloc>().add(UpdateUser(
                                 user: state.user
                                     .copyWith(age: int.parse(value))));
@@ -89,11 +93,23 @@ class _AgeScreenState extends State<AgeScreen> {
                       ),
                       IconButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const GenderScreen()));
+                            if (age.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Age is required for your profile")));
+                            } else if (int.parse(age) < 18) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text("Age should be 18 or older")));
+                            } else {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const GenderScreen()));
+                            }
                           },
                           icon: const Icon(Ionicons.arrow_forward))
                     ],
@@ -120,6 +136,13 @@ class GenderScreen extends StatefulWidget {
 }
 
 class _GenderScreenState extends State<GenderScreen> {
+  late bool gender;
+  @override
+  void initState() {
+    super.initState();
+    gender = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,6 +192,9 @@ class _GenderScreenState extends State<GenderScreen> {
                         CheckBox(
                           text: "MAN",
                           onChange: (bool? newValue) {
+                            setState(() {
+                              gender = true;
+                            });
                             context.read<OnboardingBloc>().add(UpdateUser(
                                 user: state.user.copyWith(gender: 'Male')));
                           },
@@ -181,6 +207,9 @@ class _GenderScreenState extends State<GenderScreen> {
                           text: "WOMAN",
                           value: state.user.gender == "Female",
                           onChange: (bool? newValue) {
+                            setState(() {
+                              gender = true;
+                            });
                             context.read<OnboardingBloc>().add(UpdateUser(
                                 user: state.user.copyWith(gender: 'Female')));
                           },
@@ -192,6 +221,9 @@ class _GenderScreenState extends State<GenderScreen> {
                           text: "NON-BINARY",
                           value: state.user.gender == "Non-binary",
                           onChange: (bool? newValue) {
+                            setState(() {
+                              gender = true;
+                            });
                             context.read<OnboardingBloc>().add(UpdateUser(
                                 user:
                                     state.user.copyWith(gender: 'Non-binary')));
@@ -209,16 +241,24 @@ class _GenderScreenState extends State<GenderScreen> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("You can always update this later."),
+                          Text("This will help in finding your partner"),
                         ],
                       ),
                       IconButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PicturesScreen()));
+                            print(gender);
+                            if (!gender) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text("Please select your gender")));
+                            } else {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PicturesScreen()));
+                            }
                           },
                           icon: const Icon(Ionicons.arrow_forward))
                     ],

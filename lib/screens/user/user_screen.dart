@@ -111,6 +111,11 @@ class UserScreen extends StatelessWidget {
                           "${state.user.name}, ${state.user.age}",
                           style: const TextStyle(
                               fontSize: 30, fontFamily: 'Couture'),
+                        ),
+                        Text(
+                          state.user.jobTitle,
+                          style: const TextStyle(
+                              fontSize: 14, fontFamily: 'Couture'),
                         )
                       ],
                     ),

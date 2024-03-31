@@ -4,6 +4,7 @@ import 'package:amora/models/model.dart' as u;
 import 'package:amora/repositories/database/database_repository.dart';
 import 'package:amora/screens/home/home_screen.dart';
 import 'package:amora/screens/onboarding/onboard_screens/demo_screen.dart';
+import 'package:amora/screens/onboarding/onboard_screens/phone_screen.dart';
 import 'package:amora/screens/onboarding/widgets/customInputField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -80,9 +81,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Text("Didn't get a code?"),
+                        InkWell(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PhoneScreen()));
+                            },
+                            child: const Text("Change number")),
                       ],
                     ),
                     IconButton(

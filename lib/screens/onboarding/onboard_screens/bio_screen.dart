@@ -58,17 +58,23 @@ class _BioScreenState extends State<BioScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
-                            "Make sure that your bio should be catchy enough to make a match with some individual"),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         UserInput(
                           text: "About Yourself",
                           type: TextInputType.text,
                           onChange: (value) {
                             context.read<OnboardingBloc>().add(UpdateUser(
                                 user: state.user.copyWith(bio: value)));
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        UserInput(
+                          text: "Job Title(optional)",
+                          type: TextInputType.text,
+                          onChange: (value) {
+                            context.read<OnboardingBloc>().add(UpdateUser(
+                                user: state.user.copyWith(jobTitle: value)));
                           },
                         )
                       ],
